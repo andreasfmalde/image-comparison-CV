@@ -1,45 +1,71 @@
 function main()
-original_img = imread("CIDIQ\Images\Original\final01.bmp");
-blurry_img = imread("CIDIQ\Images\Reproduction\1_JPEG2000_Compression\final01_d1_l1.bmp");
+orig_image = imread("CIDIQ\Images\Original\final01.bmp");
+very_blurry_image = imread("CIDIQ\Images\Reproduction\1_JPEG2000_Compression\final01_d1_l1.bmp");
+
+edges_orig = prewitt_edge_detector_color(orig_image);
+edges_blurry = prewitt_edge_detector_color(very_blurry_image);
+
+figure, suplot(221), imshow(orig_image), title()
+
+figure, imshow(orig_image-very_blurry_image);
+figure, subplot(121),imshow(edges_orig),subplot(122),imshow(edges_blurry);
+
+figure, imshow(edges_orig-edges_blurry);
+
+var = sum(abs(edges_orig-edges_blurry), "all")/(size(orig_image,1)*size(orig_image,2));
 
 
-%figure, imshowpair(original_img,blurry_img,'montage'), title("Orginal vs. Blurry");
-
-mean(original_img, blurry_img)
-end
-
-function score = mean(img1, img2)
-u1 = zeros(3,1);
-u1(1,:) = sum(reshape(img1(:,:,1),1,[]))/(size(img1,1)*size(img1,2));
-u1(2,:) = sum(reshape(img1(:,:,2),1,[]))/(size(img1,1)*size(img1,2));
-u1(3,:) = sum(reshape(img1(:,:,3),1,[]))/(size(img1,1)*size(img1,2));
-
-
-u2 = zeros(3,1);
-u2(1,:) = sum(reshape(img2(:,:,1),1,[]))/(size(img1,1)*size(img1,2));
-u2(2,:) = sum(reshape(img2(:,:,2),1,[]))/(size(img1,1)*size(img1,2));
-u2(3,:) = sum(reshape(img2(:,:,3),1,[]))/(size(img1,1)*size(img1,2));
-
-u1
-u2
+figure, imshow(edges_orig-edges_orig);
 
 end
 
+function count = countPixels(image, value)
 
-function covar = covariance(img1, img2, u1, u2)
+X = reshape(image, [], 1);
+sum = 0;
 
-covar = 0;
+for i = 1:size(X,1)
+    if X(i) == value
+        sum = sum + 1;
+    end
+end
 
-r1 = img1(:,:,1);
-g1 = img1(:,:,2);
-b1 = img1(:,:,3);
+end
 
-r2 = img2(:,:,1);
-g2 = img2(:,:,2);
-b2 = img2(:,:,3);
+function [output] = prewitt_edge_detector_color(image)
 
-c_r = sum((r1 - u1(1))*(r2-u2(1)))/(sum(r1) - 1);
-c_g = sum((r1 - u1(1))*(r2-u2(1)))/(sum(r1) - 1);
-c_b = sum((r1 - u1(1))*(r2-u2(1)))/(sum(r1) - 1);
+%convert image to double
+image = im2double(image);
+
+%extract the three color channels
+r = image(:,:,1);
+g = image(:,:,2);
+b = image(:,:,3);
+
+%define the kernels
+kx = [-1 0 1; -1 0 1; -1 0 1];
+ky = [-1 -1 -1; 0 0 0; 1 1 1];
+
+%apply kernels to the channels
+rx = conv2(r,kx, 'same');
+gx = conv2(g,kx, 'same');
+bx = conv2(b,kx, 'same');
+ry = conv2(r,ky, 'same');
+gy = conv2(g,ky, 'same');
+by = conv2(b,ky, 'same');
+
+%apply edge detection on the channels
+rx_edges = abs(rx) > 0.2;
+gx_edges = abs(gx) > 0.2;
+bx_edges = abs(bx) > 0.2;
+ry_edges = abs(ry) > 0.2;
+gy_edges = abs(gy) > 0.2;
+by_edges = abs(by) > 0.2;
+
+%combine the three channels
+edges = rx_edges | gx_edges | bx_edges | ry_edges | gy_edges | by_edges;
+
+%return the edges
+output = edges;
 
 end
