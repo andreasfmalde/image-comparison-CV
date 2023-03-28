@@ -3,7 +3,7 @@ function main
 
 
    img1 = double(imread('CIDIQ\Images\Original\final01.bmp'));
-   img2 = double(imread('CIDIQ\Images\Original\final01.bmp'));
+   img2 = double(imread('CIDIQ\Images\Reproduction\1_JPEG2000_Compression\final01_d1_l1.bmp'));
 
    [xMean,xVar] = meanAndVar(img1);
    [yMean,yVar] = meanAndVar(img2);
@@ -42,9 +42,7 @@ function main
    above =  (2*xMean*yMean + c1)*(2*cov + c2);
 
    below = (xMean^2 + yMean^2 + c1)*(xVar + yVar +c2);
-   above
-   below
-
+  
    ssim = above / below;
 
    ssim
