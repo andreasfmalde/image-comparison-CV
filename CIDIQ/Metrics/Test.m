@@ -1,17 +1,9 @@
-function index = test(img,img2)
+function index = Test(img,img2)
 
-
-
-
-    img = imread("CIDIQ\Images\Original\final14.bmp");
-    img2 = imread("CIDIQ\Images\Reproduction\2_JPEG_Compression\final14_d2_l5.bmp");
     %img = imread("CIDIQ\Images\Original\final01.bmp");
-    %img2 = imread("CIDIQ\Images\Reproduction\1_JPEG2000_Compression\final01_d1_l1.bmp");
+    %img2 = imread("CIDIQ\Images\Reproduction\1_JPEG2000_Compression\final01_d1_l5.bmp");
 
-
-    total = size(img,1)*size(img,2);
-    diff_total = (size(img,1)*size(img,2))/75;
- 
+    total = (size(img,1)*size(img,2))/256;
     r1 = zeros(256,1);
     r2 = zeros(256,1);
 
@@ -43,37 +35,14 @@ function index = test(img,img2)
 
         end
     end
- 
-    R = abs(r2-r1);
-    G = abs(g2-g1);
-    B = abs(b2-b1);
-    
-    Sr = std(R)/total;
-    Sg = std(G)/total;
-    Sb = std(B)/total;
 
     
-    a = mean(R)/diff_total;
-    b = mean(G)/diff_total;
-    c = mean(B)/diff_total;
-
-   
-    %aMax = mean(abs(r2-r1))*(max(abs(r2-r1))-mean(abs(r2-r1)));
-
     
-    S = mean([Sr,Sg,Sb]);
+    a = mean(abs(r2-r1))/total;
+    b = mean(abs(g2-g1))/total;
+    c = mean(abs(b2-b1))/total;
 
-    index = 1-((a+b+c+(6*S))/3);
-
-    index
-   
-    stop
-
-
-figure, subplot(121),imshow(img)
-    subplot(122), imshow(img2);
-
-    stop
+    histogram = 1-((a+b+c)/3);
 
 
 
@@ -100,7 +69,7 @@ figure, subplot(121),imshow(img)
 
     index = (histogram + color_diff  + edge_comparison)/3;
 
-    index = index*9;
+    index = index*8;
 
     %figure, subplot(121),imshow(img)
     %subplot(122), imshow(img2);

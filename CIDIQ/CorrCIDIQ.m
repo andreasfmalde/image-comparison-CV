@@ -69,6 +69,8 @@ figure('units','normalized','outerposition',[0 0 1 1]);
         subplot(X_NumberofMetrics,Y_NumberofMetrics,CounterMetrics); %subplot used to plot all metrics in the same window
         p = plot(ResultsCID,MOS,'+');
         set(p,'Color','blue','LineWidth',1);
+        xlabel("Our Results");
+        ylabel("Other results");
         
         %Linear correlation for all images%
         

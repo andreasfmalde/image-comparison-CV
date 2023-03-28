@@ -80,16 +80,33 @@ for i =1:length(dirDistortion) %going through the different distortions
             if a==1 %If a ==1 then run the metric
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
             %%%PSNR%%%  
-                [outputvalue] = PSNR(rgb2gray(IO),rgb2gray(IR)); %running PSNR metric. using RGB2gray to convert to a grayscale image. 
-                Results.PSNR(counter)=outputvalue; %saving the results into a structure with the name of the metric
+                [outputvalue] = Colors(IO,IR); %running PSNR metric. using RGB2gray to convert to a grayscale image. 
+                Results.Colors(counter)=outputvalue; %saving the results into a structure with the name of the metric
                 clear outputvalue %clearing variable
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             end %end if   
             
+
+
             a=1; %If a is set to 1 then run the metric, if set to 0, do not run it
             if a==1 %If a ==1 then run the metric
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
             %%%Add your metric here%%%  
+                [outputvalue] = Edges(IO,IR); %running PSNR metric. using RGB2gray to convert to a grayscale image. 
+                Results.Edges(counter)=outputvalue; %saving the results into a structure with the name of the metric
+                clear outputvalue %clearing variable
+            
+            end %end if   
+
+
+
+            a=1; %If a is set to 1 then run the metric, if set to 0, do not run it
+            if a==1 %If a ==1 then run the metric
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+            %%%Add your metric here%%% 
+                [outputvalue] = Histo(IO,IR); %running PSNR metric. using RGB2gray to convert to a grayscale image. 
+                Results.Histo(counter)=outputvalue; %saving the results into a structure with the name of the metric
+                clear outputvalue %clearing variable
             
             end %end if   
             
