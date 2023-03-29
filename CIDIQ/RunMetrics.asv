@@ -74,8 +74,7 @@ for i =1:length(dirDistortion) %going through the different distortions
 %                 Results.METRICNAME(counter)=outputvalue; %saving the results into a structure. Please change METRICNAME to the name of the metric. 
 %                 clear outputvalue %clearing variable
 %             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             end %end if
-
+%             end %end if    
             %{
             a=1; %If a is set to 1 then run the metric, if set to 0, do not run it
             if a==1 %If a ==1 then run the metric
@@ -98,7 +97,6 @@ for i =1:length(dirDistortion) %going through the different distortions
                 clear outputvalue %clearing variable
             
             end %end if   
-            %}
 
 
 

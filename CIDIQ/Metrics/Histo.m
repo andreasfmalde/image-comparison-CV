@@ -2,7 +2,7 @@ function index =  Histo(img,img2)
 
 
     total = size(img,1)*size(img,2);
-    diff_total = (size(img,1)*size(img,2))/75;
+    diff_total = (size(img,1)*size(img,2))/100;
     r1 = zeros(256,1);
     r2 = zeros(256,1);
 
@@ -39,20 +39,15 @@ function index =  Histo(img,img2)
     G = abs(g2-g1);
     B = abs(b2-b1);
     
-    Sr = std(R)/total;
-    Sg = std(G)/total;
-    Sb = std(B)/total;
-    
     a = mean(R)/diff_total;
     b = mean(G)/diff_total;
     c = mean(B)/diff_total;
 
-    S = mean([Sr,Sg,Sb]);
 
     %aMax = mean(abs(r2-r1))*(max(abs(r2-r1))-mean(abs(r2-r1)));
 
     %corr = v / aMax;
 
-    index = 1-((a+b+c+(6*S))/3);
+    index = 1-((a+b+c)/3);
 
 end
