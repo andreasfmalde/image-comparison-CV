@@ -49,5 +49,6 @@ function index =  Histo(img,img2)
     %corr = v / aMax;
 
     index = 1-((a+b+c)/3);
+    index = (index-0.25)/(1-0.25);
 
 end

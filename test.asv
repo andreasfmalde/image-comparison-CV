@@ -9,7 +9,9 @@ function index = test(img,img2)
     %img2 = imread("CIDIQ\Images\Reproduction\1_JPEG2000_Compression\final01_d1_l1.bmp");
 
 
-    total = (size(img,1)*size(img,2))*2;
+    total = size(img,1)*size(img,2);
+    diff_total = (size(img,1)*size(img,2))/75;
+ 
     r1 = zeros(256,1);
     r2 = zeros(256,1);
 
@@ -42,25 +44,26 @@ function index = test(img,img2)
         end
     end
  
- 
-    S = sqrt(var(abs(r2-r1)));
-    S
-    stop
+    R = abs(r2-r1);
+    G = abs(g2-g1);
+    B = abs(b2-b1);
     
+    Sr = std(R)/total;
+    Sg = std(G)/total;
+    Sb = std(B)/total;
+
     
-    a = mean(abs(r2-r1))/total;
-    b = mean(abs(g2-g1))/total;
-    c = mean(abs(b2-b1))/total;
+    a = mean(R)/diff_total;
+    b = mean(G)/diff_total;
+    c = mean(B)/diff_total;
 
    
-    aMax = mean(abs(r2-r1))*(max(abs(r2-r1))-mean(abs(r2-r1)));
+    %aMax = mean(abs(r2-r1))*(max(abs(r2-r1))-mean(abs(r2-r1)));
 
     
+    S = mean([Sr,Sg,Sb]);
 
-    ola = v / aMax;
-
-
-    index = 1-(((a+b+c+5*ola))/3);
+    index = 1-((a+b+c+(6*S))/3);
 
     index
    

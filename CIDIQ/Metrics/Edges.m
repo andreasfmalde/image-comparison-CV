@@ -8,6 +8,8 @@ function index =  Edges(img,img2)
 
     diff = sum(abs(edges_orig-edges_blurry), "all")/(size(img,1)*size(img,2));
     index = 1-diff;
+    index = (index-0.3) / (1-0.3);
+   
 
 
 end
