@@ -1,36 +1,22 @@
-function main()
-orig_image = imread("CIDIQ\Images\Original\final01.bmp");
-very_blurry_image = imread("CIDIQ\Images\Reproduction\1_JPEG2000_Compression\final01_d1_l1.bmp");
 
-edges_orig = prewitt_edge_detector_color(orig_image);
-edges_blurry = prewitt_edge_detector_color(very_blurry_image);
-
-figure, suplot(221), imshow(orig_image), title()
-
-figure, imshow(orig_image-very_blurry_image);
-figure, subplot(121),imshow(edges_orig),subplot(122),imshow(edges_blurry);
-
-figure, imshow(edges_orig-edges_blurry);
-
-var = sum(abs(edges_orig-edges_blurry), "all")/(size(orig_image,1)*size(orig_image,2));
+function index =  Edges(img,img2)
 
 
-figure, imshow(edges_orig-edges_orig);
+    edges_orig = prewitt_edge_detector_color(img);
+    edges_blurry = prewitt_edge_detector_color(img2);
+
+
+    diff = sum(abs(edges_orig-edges_blurry), "all")/(size(img,1)*size(img,2));
+    index = 1-diff;
+    index = (index-0.3) / (1-0.3);
+   
+
 
 end
 
-function count = countPixels(image, value)
 
-X = reshape(image, [], 1);
-sum = 0;
 
-for i = 1:size(X,1)
-    if X(i) == value
-        sum = sum + 1;
-    end
-end
 
-end
 
 function [output] = prewitt_edge_detector_color(image)
 

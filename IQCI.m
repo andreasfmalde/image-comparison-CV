@@ -1,31 +1,77 @@
 %% IQCI - Image Quality Comparison Index
 function index = IQCI(img,img2)
 
-
     if size(img,1) ~= size(img2,1) || size(img,2) ~= size(img2,2)
         error('Images must be of same size!');
     end
-
 
     edge = Edges(im2gray(img),im2gray(img2));
     histo = Histo(img,img2);
     color = Colors(img,img2);
 
-    %index = (edge + histo + color)/3;
     index = ((6/15)*edge + (5/15)*histo + (4/15)*color);
-    index = (index - 0.4)/(1-0.4);
+    %index = (index - 0.42)/(1-0.42);
 
 end
+
+%{function Test() 
+%
+%img1 = imread("CIDIQ\Images\Original\final01.bmp");
+%img2 = imread("CIDIQ\Images\Reproduction\1_JPEG2000_Compression\final01_d1_l1.bmp");
+%Test(img1,img2)
+%
+%end
 
 
 function index =  Edges(img,img2)
     %edges_orig = prewitt_edge_detector_color(img);
     %edges_blurry = prewitt_edge_detector_color(img2);
-    edges_orig = edge(img,"canny");
-    edges_blurry = edge(img2,"canny");
+    edges_orig = edge(img,"sobel");
+    edges_blurry = edge(img2,"sobel");
     diff = sum(abs(edges_orig-edges_blurry), "all")/(size(img,1)*size(img,2));
     index = 1-diff;
-    index = (index-0.75) / (1-0.75); 
+    %index
+    %index = (index-0.3) / (1-0.3); 
+    
+
+   
+end
+
+function [output] = prewitt_edge_detector_color(image)
+
+    %convert image to double
+    image = im2double(image);
+    
+    %extract the three color channels
+    r = image(:,:,1);
+    g = image(:,:,2);
+    b = image(:,:,3);
+    
+    %define the kernels
+    kx = [-1 0 1; -1 0 1; -1 0 1];
+    ky = [-1 -1 -1; 0 0 0; 1 1 1];
+    
+    %apply kernels to the channels
+    rx = conv2(r,kx, 'same');
+    gx = conv2(g,kx, 'same');
+    bx = conv2(b,kx, 'same');
+    ry = conv2(r,ky, 'same');
+    gy = conv2(g,ky, 'same');
+    by = conv2(b,ky, 'same');
+    
+    %apply edge detection on the channels
+    rx_edges = abs(rx) > 0.2;
+    gx_edges = abs(gx) > 0.2;
+    bx_edges = abs(bx) > 0.2;
+    ry_edges = abs(ry) > 0.2;
+    gy_edges = abs(gy) > 0.2;
+    by_edges = abs(by) > 0.2;
+    
+    %combine the three channels
+    edges = rx_edges | gx_edges | bx_edges | ry_edges | gy_edges | by_edges;
+    
+    %return the edges
+    output = edges;
 end
 
 function index =  Histo(img,img2)
@@ -121,5 +167,6 @@ function index =  Colors(img,img2)
 
     index = 1-(sum(count)/(counter_index-1));
     index = (index - 0.65) / (1 - 0.65);
+
 
 end
