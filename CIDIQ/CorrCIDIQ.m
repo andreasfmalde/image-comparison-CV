@@ -64,11 +64,18 @@ figure('units','normalized','outerposition',[0 0 1 1]);
         disp(['Calculating scores for metric #', num2str(CounterMetrics),': ', char(names(k))]); 
         ResultsCID = getfield(Results,char(names(k))); %extracting results for a single metric 
         XtickNames(CounterMetrics) = names(k);
+
+        % Change this 
+        %ResultsCID = ResultsCID(1,576:690);
+        %MOS = MOS(576:690,1);
+     
         
         %Making a plot for the metric
         subplot(X_NumberofMetrics,Y_NumberofMetrics,CounterMetrics); %subplot used to plot all metrics in the same window
         p = plot(ResultsCID,MOS,'+');
         set(p,'Color','blue','LineWidth',1);
+        xlabel("Our Results");
+        ylabel("Other results");
         
         %Linear correlation for all images%
         
@@ -113,10 +120,15 @@ figure('units','normalized','outerposition',[0 0 1 1]);
        % legend('Images in CID:IQ','Curve fitted with logistic function', 'Location','NorthWest'); %adding legend
        % xlabel('Objective score by metric'); %adding xlabel 
        % ylabel(['MOS (', num2str(d), ' cm)']); % adding ylabel 
+
+
         title(char(names(k))); %adding title, being the name of the metric
+        %title("Histogram comparison")
 
         %Calculating the correlation per image
         counterPerImage = 0; 
+
+        %Change this to 690
         for IP=1:5:690
             counterPerImage = counterPerImage +1;
             pearsonCorrIP(counterPerImage) = corr(ResultsCID(IP:IP+4)',MOS(IP:IP+4),'type','pearson');
@@ -132,6 +144,8 @@ figure('units','normalized','outerposition',[0 0 1 1]);
         %Calculate results per distortion
         clear  mosFit ypreFit bayta ehat J 
         DistortionNumber = 0;
+
+        %Change this to 690
         for IP=1:115:690     
             DistortionNumber = DistortionNumber +1;
             NumberDatapointsDistortion = 115;

@@ -74,25 +74,44 @@ for i =1:length(dirDistortion) %going through the different distortions
 %                 Results.METRICNAME(counter)=outputvalue; %saving the results into a structure. Please change METRICNAME to the name of the metric. 
 %                 clear outputvalue %clearing variable
 %             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%             end %end if    
-            
+%             end %end if
+
+            %{
             a=1; %If a is set to 1 then run the metric, if set to 0, do not run it
             if a==1 %If a ==1 then run the metric
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
             %%%PSNR%%%  
-                [outputvalue] = PSNR(rgb2gray(IO),rgb2gray(IR)); %running PSNR metric. using RGB2gray to convert to a grayscale image. 
-                Results.PSNR(counter)=outputvalue; %saving the results into a structure with the name of the metric
+                [outputvalue] = Colors(IO,IR); %running PSNR metric. using RGB2gray to convert to a grayscale image. 
+                Results.Colors(counter)=outputvalue; %saving the results into a structure with the name of the metric
                 clear outputvalue %clearing variable
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             end %end if   
-            
+              %}
+
+
             a=1; %If a is set to 1 then run the metric, if set to 0, do not run it
             if a==1 %If a ==1 then run the metric
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
             %%%Add your metric here%%%  
+                [outputvalue] = IQCI(IO,IR); %running PSNR metric. using RGB2gray to convert to a grayscale image. 
+                Results.IQCI(counter)=outputvalue; %saving the results into a structure with the name of the metric
+                clear outputvalue %clearing variable
             
             end %end if   
+          
+
+
+           
+            a=1; %If a is set to 1 then run the metric, if set to 0, do not run it
+            if a==1 %If a ==1 then run the metric
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+            %%%Add your metric here%%% 
+                [outputvalue] = SSIM(IO,IR); %running PSNR metric. using RGB2gray to convert to a grayscale image. 
+                Results.SSIM(counter)=outputvalue; %saving the results into a structure with the name of the metric
+                clear outputvalue %clearing variable
             
+            end %end if   
+        
             save(SaveName, 'Results','d'); %storing results after each image
     
         end
